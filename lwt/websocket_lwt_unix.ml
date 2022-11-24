@@ -142,6 +142,7 @@ let server_fun ?read_buf ?write_buf check_request flow ic oc react =
         >>= fun () -> Lwt.fail @@ HTTP_Error reason in
   Request.read ic >>= read
   >>= fun request ->
+    (* Lwt_io.print (Format.asprintf "A request: %a\n%!" Cohttp.Request.pp_hum request) >>= fun () -> *)
   let meth = Cohttp.Request.meth request in
   let version = Cohttp.Request.version request in
   let headers = Cohttp.Request.headers request in
@@ -158,6 +159,7 @@ let server_fun ?read_buf ?write_buf check_request flow ic oc react =
     when String.Ascii.lowercase up = "websocket" ->
       Lwt.return key
   | _ ->
+      Lwt_io.print (Format.asprintf "Bad headers: %a\n%!" Cohttp.Request.pp_hum request) >>= fun () ->
       write_failed_response oc
       >>= fun () -> Lwt.fail (Protocol_error "Bad headers") )
   >>= fun key ->
