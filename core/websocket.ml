@@ -320,8 +320,8 @@ module Make (IO : Cohttp.S.IO) = struct
     >>= function
     | None -> raise End_of_file | Some hdr -> read_frame ic oc buf mode hdr
 
-  module Request = Cohttp.Request.Make (IO)
-  module Response = Cohttp.Response.Make (IO)
+  module Request = Cohttp.Request.Private.Make (IO)
+  module Response = Cohttp.Response.Private.Make (IO)
 
   module Connected_client = struct
     type t =

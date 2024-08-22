@@ -4,7 +4,7 @@ open Websocket
 let html_response s =
   Cohttp_eio.Server.respond_string ~status:`OK ~body:s ()
 
-let handler ~sw con req _body : Cohttp_eio.Server.response_action =
+let handler ~sw _con req _body : Cohttp_eio.Server.response_action =
   let open Frame in
   let uri = Http.Request.resource req in
   match uri with
